@@ -40,6 +40,11 @@ from backtrader.comminfo import CommInfoBase
 from backtrader.position import Position
 from backtrader.utils.py3 import queue
 
+try:
+    basestring
+except:
+    basestring = str
+
 VERSION = '0.3.2'
 
 # Map backtrader order types to the FIX order types

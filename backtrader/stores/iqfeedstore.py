@@ -177,13 +177,14 @@ class IQFeedStore(with_metaclass(MetaSingleton, object)):
 
     def run_forever(self, timeframe):
         """Start listening to IQFeed bars for the specified time frame."""
-        quote_conn = iq.QuoteConn(name="IQFeed Quote Conn %s" % bt.TimeFrame.getname(timeframe))
+        name = bt.TimeFrame.getname(timeframe, 0)
+        quote_conn = iq.QuoteConn(name="IQFeed Quote Conn %s" % name)
         quote_listener = IQFeedLevel1QuoteListener("IQFeed Level 1 Quote Listener %s" % \
-                                                   bt.TimeFrame.getname(timeframe), self)
+                                                   name, self)
         quote_conn.add_listener(quote_listener)
 
-        bar_conn = iq.BarConn(name="IQFeed Bar Conn %s" % bt.TimeFrame.getname(timeframe))
-        bar_listener = IQFeedBarListener("IQFeed Bar listener %s" % bt.TimeFrame.getname(timeframe),
+        bar_conn = iq.BarConn(name="IQFeed Bar Conn %s" % name)
+        bar_listener = IQFeedBarListener("IQFeed Bar listener %s" % name,
                                          self.queues[timeframe], self)
         bar_conn.add_listener(bar_listener)
 
